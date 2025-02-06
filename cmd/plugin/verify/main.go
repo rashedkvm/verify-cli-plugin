@@ -12,7 +12,7 @@ import (
 var descriptor = plugin.PluginDescriptor{
 	Name:        "verify",
 	Description: "verifies connectivity with the platform",
-	Target:      types.TargetUnknown, // <<<FIXME! set the Target of the plugin to one of {TargetGlobal,TargetOperations,TargetTMC}
+	Target:      types.TargetGlobal,
 	Version:     buildinfo.Version,
 	BuildSHA:    buildinfo.SHA,
 	Group:       plugin.ManageCmdGroup, // set group
@@ -24,7 +24,7 @@ func main() {
 		log.Fatal(err, "")
 	}
 	p.AddCommands(
-	// Add commands
+		// Add commands
 	)
 	if err := p.Execute(); err != nil {
 		os.Exit(1)
