@@ -19,10 +19,16 @@ var descriptor = plugin.PluginDescriptor{
 }
 
 func main() {
+	var logger = logging.Logger
+	if descriptor.Version == "" {
+		descriptor.Version = "dev"
+	}
 	p, err := plugin.NewPlugin(&descriptor)
 	if err != nil {
-		log.Fatal(err, "")
+		logger.Fatal(err, "")
 	}
+	p.Cmd.SilenceErrors = true
+	p.Cmd.SilenceUsage = true
 	p.AddCommands(
 		// Add commands
 	)
