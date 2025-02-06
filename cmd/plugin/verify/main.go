@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
+	"log"
 	"os"
+	"verify-cli-plugin/pkg/commands/upload"
 
 	"github.com/vmware-tanzu/tanzu-plugin-runtime/config/types"
-	"github.com/vmware-tanzu/tanzu-plugin-runtime/log"
 	"github.com/vmware-tanzu/tanzu-plugin-runtime/plugin"
 	"github.com/vmware-tanzu/tanzu-plugin-runtime/plugin/buildinfo"
 )
@@ -19,7 +21,8 @@ var descriptor = plugin.PluginDescriptor{
 }
 
 func main() {
-	var logger = logging.Logger
+	ctx := context.Background()
+	var logger = log.New(os.Stderr, "", log.LstdFlags|log.Lmicroseconds)
 	if descriptor.Version == "" {
 		descriptor.Version = "dev"
 	}
@@ -30,7 +33,7 @@ func main() {
 	p.Cmd.SilenceErrors = true
 	p.Cmd.SilenceUsage = true
 	p.AddCommands(
-		// Add commands
+		upload.NewUploadCommand(ctx),
 	)
 	if err := p.Execute(); err != nil {
 		os.Exit(1)
